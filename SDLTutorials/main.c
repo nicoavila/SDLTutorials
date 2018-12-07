@@ -18,7 +18,8 @@ int main(void) {
     }
     
     //Crea la ventana
-    SDL_Window* win = SDL_CreateWindow("Nico SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 640, 0);
+    Uint32 win_flags = SDL_WINDOW_ALWAYS_ON_TOP;
+    SDL_Window* win = SDL_CreateWindow("Nico SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 640, win_flags);
     if (!win) {
         printf("Error al crear la ventana: %s\n", SDL_GetError());
         SDL_Quit();
@@ -63,7 +64,18 @@ int main(void) {
     SDL_RenderCopy(rend, text, NULL, NULL);
     SDL_RenderPresent(rend);
     
-    SDL_Delay(10000);
+    _Bool running = 1;
+    while(running) {
+        SDL_Event e;
+        while(SDL_PollEvent(&e)) {
+            switch(e.type) {
+                case SDL_QUIT:
+                    running = 0;
+                break;
+            }
+            
+        }
+    }
     
     SDL_DestroyWindow(win);
     SDL_Quit();
